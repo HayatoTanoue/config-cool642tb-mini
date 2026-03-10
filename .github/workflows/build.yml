@@ -1,5 +1,38 @@
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths-ignore:
+      - 'firmware/**'
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+
+  save-firmware:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: firmware-artifacts
+
+      - name: Copy firmware files
+        run: |
+          mkdir -p firmware
+          find firmware-artifacts -name "*.uf2" -exec cp {} firmware/ \;
+
+      - name: Commit and push firmware
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add firmware/
+          if git diff --staged --quiet; then
+            echo "No firmware changes to commit"
+          else
+            git commit -m "Auto-update firmware files"
+            git push
+          fi
