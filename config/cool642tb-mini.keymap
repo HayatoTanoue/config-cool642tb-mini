@@ -13,9 +13,7 @@
     quick-tap-ms = <0>;
 };
 
-&lt {
-    require-prior-idle-ms = <125>;
-};
+&lt { require-prior-idle-ms = <125>; };
 
 / {
     combos {
@@ -77,7 +75,7 @@
 
         ARROW {
             bindings = <
-&kp ESCAPE  &trans    &trans    &trans     &trans                      &trans  &trans              &trans            &trans               &trans
+&kp ESCAPE  &kp TAB   &trans    &trans     &trans                      &trans  &trans              &trans            &trans               &trans
 &trans      &trans    &kp UP    &trans     &trans  &trans      &trans  &trans  &mkp LCLK           &trans            &mkp RCLK            &trans
 &trans      &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans      &trans  &trans  &kp RC(LEFT_ARROW)  &kp RC(UP_ARROW)  &kp RC(RIGHT_ARROW)  &trans
 &trans      &trans    &trans    &trans     &trans  &trans      &trans  &trans                                                             &trans
